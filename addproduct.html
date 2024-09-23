@@ -1,0 +1,131 @@
+<html>
+    <head>
+        <title>Add Product</title>
+        <link href="style.css" rel="stylesheet"/>
+    </head>
+    <body>
+        <section id="bg">
+            <h2 class="heading"> FORM </h2>
+            <div>
+                <lable>Image<span style="color:red">*</span></lable>
+                <input type="file" id='img' onchange="getFileInfo(event)"/>
+                <img src="" alt="Select an Image" id="output" height="250" width="250" />
+            </div>
+        <div class="namebox">
+            <label> Product Name  <span style="color: red;">*</span></label>
+            <input type="text" placeholder="Enter the product name" id="productname" class="box1"/>
+            <span style="display: none;" id="productnameerror">Product Name is required</span>
+            <span style="display: none;" id="validproductname">Product Name should contain minimum of 3 characters and maximum of 25 characters </span>
+        </div>
+        <div>
+            <label> Product Cost <span style="color: red;">*</span></label>
+            <input type="text" placeholder="Enter Product Cost" id="productcost" class="box2"/>
+            <span style="display: none;" id="costerror">Product Cost is required</span>
+            <span style="display: none;" id="validcost">Enter a Valid Cost</span>
+        </div>
+        <div class="div">
+            <label> Product Description <span style="color: red;">*</span></label>
+            <textarea placeholder="Enter Product Description" id="productdesp" class="box2 space"rows="3" cols="20"> </textarea>
+            <span style="display: none;" id="disperror">Product Discription Required</span>
+            <span style="display: none;" id="validdispe">Product Discription should contain atmost 255 characters</span>
+        </div>
+        <div>
+            <input type="button" value="Submit" onclick="cart()" class="btn"/>
+        </div>
+        </section>
+    </body>
+</html>
+<script>
+
+    function getFileInfo(event){
+    console.log("---------event-------",event);
+    var filename = event.target.files[0].type;
+    console.log('----event.target.files[0].name-----',event.target.files[0]);
+    console.log('----event.target.files[0].name-----',filename);
+    var fileExt = filename.split('/');
+    console.log('----splitted file extension----',fileExt);
+    var ext = fileExt[1];
+        if(ext =='png'|| ext == 'jpeg'|| ext=='jpg'|| ext=='svg'|| ext=='gif')
+          {
+             console.log("-------ext------",ext);
+             var output = document.getElementById('output');
+             output.src = URL.createObjectURL(event.target.files[0]);
+             output.onload = function() {
+             URL.revokeObjectURL(output.src)
+             };
+             var fileinput=document.getElementById('img');
+             if(fileinput.files.length > 0) {
+                var file = fileinput.files[0];
+                var reader = new FileReader();
+                reader.onload = function(event){
+                    localStorage.setItem("pro_img",event.target.result);
+                    var image=event.target.files[0];
+                };
+                reader.readAsDataURL(file);
+                }
+             }
+  else{   
+         alert("Invalid File Format");         
+  }
+}
+        
+  // inputs
+
+     function cart() {
+        var pname = document.getElementById('productname').value.trim();
+        var product_desp = document.getElementById('productdesp').value.trim();
+        var cost = document.getElementById('productcost').value.trim();
+        console.log('------productname----',pname);
+        console.log('------productcost----',cost);
+        console.log('----- productdesp----',product_desp)
+       console.log('----------length of pname----',pname.length);
+       console.log('----------length of cost----',cost.length);
+       console.log('----------length of Description----',product_desp.length);
+        if(pname){
+            if(pname.length>=3 && pname.length<=25){
+            document.getElementById('productname').style = "border:2px solid green;"
+            document.getElementById('validproductname').style = "display:none;"
+            }else{
+            document.getElementById('validproductname').style = "display:block; color:red;"  
+            document.getElementById('productname').style = "border:2px solid red;"
+            }   
+            document.getElementById('productnameerror').style = "display:none;"
+        }else{
+            document.getElementById('productname').style = "border:2px solid red;"
+            document.getElementById('productnameerror').style = "display:block; color:red;"
+        }
+        if(cost){
+            if(cost[0].length>=3 && cost[0].length<=5){
+            document.getElementById('productcost').style = "border:2px solid green;"
+            document.getElementById('validcost').style = "display:none;" 
+            }else{
+            document.getElementById('validcost').style = "display:block; color:red;"  
+            document.getElementById('productcost').style = "border:2px solid red;"
+            }   
+            document.getElementById('costerror').style = "display:none;"
+        }else{
+            document.getElementById('productcost').style = "border:2px solid red;"
+            document.getElementById('costerror').style = "display:block; color:red;"
+        }
+        if(product_desp){
+            if(product_desp.length<=255){
+            document.getElementById('productdesp').style = "border:2px solid green;"
+            document.getElementById('validdispe').style = "display:none;" 
+            }else{
+            document.getElementById('validdispe').style = "display:block; color:red;"  
+            document.getElementById('productdesp').style = "border:2px solid red;"
+            }   
+            document.getElementById('disperror').style = "display:none;"
+        }else{
+            document.getElementById('productdesp').style = "border:2px solid red;"
+            document.getElementById('disperror').style = "display:block; color:red;"
+        }
+       
+        if(pname&&cost&&product_desp)  {
+            localStorage.setItem('product_name',pname);
+            localStorage.setItem('product_price',cost);
+            localStorage.setItem('product_d',product_desp);
+            window.location.href="cart.html";
+        }
+     }
+</script>

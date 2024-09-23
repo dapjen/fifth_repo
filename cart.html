@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>Cart</title>
+    <link href="style2.css" rel="stylesheet"/>
+  </head>
+  <body>
+            <section id="bg">
+            <div class="align"><lable>Product Image : </lable></div>
+            <div class="align"><img src="" id='pimage' width="300" height="300"></div>
+            <div class="align"><lable>Product Name : <span id="name"></span></lable>
+            <lable>Product Price : <span id="price"></span></lable></div>
+            <div class="align"><lable>Product Discription : <span id="pdiscription"></span> </lable></div>
+            <div class="align"><lable> Select No Of Product </lable></div>
+              <divclass="align">
+                <button type="button" onclick="quantityupdated('-')">-</button>
+                <input type="text" id="quantity" value="0"/>
+                <button type="button" onclick="quantityupdated('+')">+</button>
+              </div>
+            <div class="align">
+               <lable>Total Cost : <span id="totalprice">0</span></lable>
+            </div>
+            <div class="align">
+              <lable>Apply Coupon : <span id="coupon"><button type="button" onclick="availcoupon()" class="btn">APJ50</button></span></lable>
+            </div>
+            <div>
+              <button type="button" onclick="validation()" class="btn"> Proceed to check out </button>
+            </div>
+        </section> 
+  </body>
+</html>
+<script>
+          var name = localStorage.getItem('product_name');
+          var price = localStorage.getItem('product_price');
+          var product_discription = localStorage.getItem('product_d');
+          document.getElementById('name').textContent = name;
+          document.getElementById('price').textContent = price;
+          document.getElementById('pdiscription').textContent =product_discription;
+          var Totalprice=document.getElementById('price').textContent;
+          //console.log("--------total price----",Totalprice);
+          document.getElementById('totalprice').textContent=Totalprice;
+          var imgproduct = localStorage.getItem("pro_img");
+          if(imgproduct)
+           {
+                  document.getElementById("pimage").src=imgproduct;
+           }       
+    function quantityupdated(value){
+            var countvalue =document.getElementById('quantity').value;
+            if(!countvalue){
+              countvalue="0";
+            }
+            countvalue = value == '+' ? parseInt(countvalue) + 1 : parseInt(countvalue) - 1;
+            document.getElementById('quantity').value=countvalue;
+           // console.log("------------quantity-------",countvalue );
+            var Totalprice = document.getElementById('totalprice').textContent;
+            if(countvalue>0){
+                Totalprice=countvalue*price;
+                document.getElementById("totalprice").textContent=Totalprice.toFixed(2);
+                console.log("------Totalprice------",Totalprice);
+            }        
+        } 
+    function availcoupon(){
+        var Totalprice = document.getElementById('totalprice').textContent;
+        //console.log('----------Totalprice---------',Totalprice); 
+        Totalprice=Totalprice/2;
+        document.getElementById('totalprice').textContent=Totalprice.toFixed(2);
+        console.log("---------After discount ------",Totalprice);
+        var discount= "APJ 50 coupon Applied";
+        document.getElementById('coupon').textContent=discount;
+      
+    }        
+    function validation(){
+        var Totalprice = document.getElementById('totalprice').textContent;
+        var countvalue =  document.getElementById('quantity').value;
+      
+        localStorage.setItem('Product_Name',name);
+        localStorage.setItem('amount',Totalprice);
+        localStorage.setItem('quantity',countvalue)
+        window.location.href="placeorder.html";
+        }   
+        </script>

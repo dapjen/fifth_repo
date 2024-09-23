@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title></title>
+        <link href="style1.css" rel="stylesheet"/>
+    </head>
+    <body>
+       
+        <div id="bg">
+            <div>
+                <h1>Your Order</h1>
+            </div>
+            <div class="align"><lable>Product Name : <span id="name"> </span></lable></div>
+            <div class="align"><lable>Quantity : <span id="quantity"></span></lable></div>
+            <div class="align"><lable>Total Price : <span id="price"></span></lable></div>
+            
+            <div>
+                <button type="button" onclick="exit()" class="btn">Done</button>
+            </div>
+        </div>
+    </body>
+</html>
+<script>
+          var productname = localStorage.getItem('Product_Name');
+          var Quantity= localStorage.getItem('quantity');
+          var Total_Amount = localStorage.getItem('amount');
+          document.getElementById('name').textContent =productname;
+          document.getElementById('quantity').textContent = Quantity;
+          document.getElementById('price').textContent = Total_Amount;
+          function exit(){
+            window.location.href="thankyou.html";
+            
+          }
+         
+</script>
